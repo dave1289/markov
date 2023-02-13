@@ -1,6 +1,10 @@
 /** Textual markov chain generator */
 
 
+function countWords(str) {
+   return str.split(" ").length;
+}
+
 class MarkovMachine {
 
   /** build markov machine; read in text.*/
@@ -45,22 +49,24 @@ class MarkovMachine {
     let keys = Array.from(this.chains.keys())
     let endWord = false;
     let story = '';
+    let i = 0
 
-    while (endWord == false || story.length < numWords) {
+    while (i < 100) {
       let word = this.randomKey(keys)
       let options = [...this.chains.get(word)]
-      if (options.includes(undefined) ) {
+      if (options.includes(null)) {
          endWord = true;
-         console.log(story)
       }
       else {
          let nextWord = options[Math.floor(Math.random() * options.length)]
          story += word += ' '
          story += nextWord += ' '
-         console.log(story, story.length)
+         i += 2
       }
     }
+    console.log(story, this.chains)
   }
 }
 
-const markov = new MarkovMachine('the kids love slime and slime loves kids so when kids eat slime and slime loves eat then i can eat slime with cats that love kids')
+
+const markov = new MarkovMachine(`In compliance with the request of a friend of mine, who wrote me from the East, I called on good-natured, garrulous old Simon Wheeler, and inquired after my friend's friend, Leonidas W. Smiley, as requested to do, and I hereunto append the result. I have a lurking suspicion that Leonidas W. Smiley is a myth; and that my friend never knew such a personage; and that he only conjectured that if I asked old Wheeler about him, it would remind him of his infamous Jim Smiley, and he would go to work and bore me to death with some exasperating reminiscence of him as long and as tedious as it should be useless to me. If that was the design, it succeeded.`)
